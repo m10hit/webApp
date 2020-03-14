@@ -161,6 +161,25 @@ console.log(col);
       alert("Please select atleast one book");
     }
   });
+
+  document.getElementById("search").addEventListener("click", function(){
+    var input, filter, ul, li, a, i, txtValue, td;
+    input = document.getElementById("search-text");
+    filter = input.value.toUpperCase();
+    table = document.getElementsByClassName("bookTable")[0];
+    tbody = table.getElementsByTagName("tbody");
+    for (i = 0; i < tbody.length; i++) {
+        td = tbody[i].getElementsByTagName("td")[2];
+        txtValue = td.textContent || td.innerText;
+        console.log(txtValue);
+        if (txtValue.toUpperCase().indexOf(filter) > -1 && filter !== "" && filter !== " ") {
+            td.parentNode.style.backgroundColor = "red";
+        }else{
+            td.parentNode.style.backgroundColor = null;
+        }
+    }
+  })
+
   document.getElementById("reset-cart").addEventListener("click", function(){
     if(sum !== 0){
     var isReset = confirm("Do you really want to Reset the cart?");
