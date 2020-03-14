@@ -56,3 +56,16 @@ caption {
 p{
   display:inline;
 }
+
+label{
+  margin-left:50px
+}
+
+#add-cart{
+  margin-left:330px;;
+}
+
+.darkmode{
+  background-color:black !important;
+  color:white !important ;
+}

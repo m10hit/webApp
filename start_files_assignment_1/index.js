@@ -42,7 +42,7 @@ function loadBooks(bookList) {
 
   list.appendChild(table);
   table.appendChild(tHead);
-  setAttributes(table, {"id":"bookTable"});
+  setAttributes(table, {"class":"bookTable"});
 
 // to get headers in an array
   var col = [];
@@ -162,22 +162,46 @@ console.log(col);
     }
   });
   document.getElementById("reset-cart").addEventListener("click", function(){
+    if(sum !== 0){
     var isReset = confirm("Do you really want to Reset the cart?");
     if(isReset){
       sum=0;
       document.getElementsByTagName("p")[0].innerHTML = "(" +sum+")";
     }
-  })
+  }else{
+    alert("The cart is already empty");
+  }
+});
+
+
+document.getElementsByName("darkmode")[0].addEventListener("change",function(ev){
+  if(ev.target.checked){
+  document.body.classList.add("darkmode");
+  // document.getElementsByTagName("table")[0].classList.add("darkmode");
+  document.getElementsByTagName("thead")[0].classList.add("darkmode");
+  document.getElementById("searchBox").classList.add("darkmode");
+  document.getElementById("listBox").classList.add("darkmode");
+  document.getElementById("cart").classList.add("darkmode");
+}else{
+  document.body.classList.remove("darkmode");
+  // document.getElementsByTagName("table")[0].classList.add("darkmode");
+  document.getElementsByTagName("thead")[0].classList.remove("darkmode");
+  document.getElementById("searchBox").classList.remove("darkmode");
+  document.getElementById("listBox").classList.remove("darkmode");
+  document.getElementById("cart").classList.remove("darkmode");
+}
+});
+
 }
 
 
 
 function checkOne(checks){
-  console.log("hello")
+  console.log("hello");
   var checkboxes = document.getElementsByName("check");
   checkboxes.forEach((checkbox) => {
-        if (checkbox !== checks) checkbox.checked = false
-    })
+        if (checkbox !== checks) checkbox.checked = false;
+    });
 }
 
 function setAttributes(element, attributes) {
@@ -190,7 +214,7 @@ function selectCategory() {
   var input, filter, table, tr, td, i;
   input = document.getElementById("category");
   filter = input.value.toUpperCase();
-  table = document.getElementById("bookTable");
+  table = document.getElementsByClassName("bookTable")[0];
   tbody = table.getElementsByTagName("tbody");
   for (i = 0; i < tbody.length; i++) {
     td = tbody[i].getElementsByTagName("td")[8];
