@@ -74,13 +74,22 @@ console.log(col);
       continue;
     }
     if (col[i] === "title") {
-      th.setAttribute("colspan", "2");
-    } else if (col[i] === "rating") {
-      th.setAttribute("colspan", "1")
+      var headTitle = document.createElement("th");
+      headTitle.innerText = "";
+      tHead.appendChild(headTitle);
+      th.setAttribute("colspan", "1");
+
     }
     th.innerText = col[i];
+    th.innerText = th.innerText.charAt(0).toUpperCase() + th.innerText.slice(1)
     tHead.appendChild(th);
   }
+
+  // // To capitalize the first letter of each headers
+  // var headers = document.getElementsByTagName("th");
+  // for(var i=0;i<document.getElementsByTagName.length;i++){
+  //   headers[i].innerText.charAt(0).toUpperCase()+headers[i].innerText.substring(1);
+  // }
 
 // Loop to create the body part
   for (var i = 0; i < bookList.length; i++) {
@@ -149,6 +158,9 @@ console.log(col);
           alert("Please enter an Integer");
           isChecked[i].checked = false;
           break;
+        }else if(Number.isInteger(Number(noOfBooks)) === false){
+          alert("Please enter a whole number");
+          break;
         }
         console.log(noOfBooks);
         sum+=parseInt(noOfBooks);
@@ -163,7 +175,7 @@ console.log(col);
   });
 
   document.getElementById("search").addEventListener("click", function(){
-    var input, filter, ul, li, a, i, txtValue, td;
+    var input, filter, ul, li, a, i, txtValue, td, empty;
     input = document.getElementById("search-text");
     filter = input.value.toUpperCase();
     table = document.getElementsByClassName("bookTable")[0];
@@ -172,13 +184,25 @@ console.log(col);
         td = tbody[i].getElementsByTagName("td")[2];
         txtValue = td.textContent || td.innerText;
         console.log(txtValue);
-        if (txtValue.toUpperCase().indexOf(filter) > -1 && filter !== "" && filter !== " ") {
+        if (txtValue.toUpperCase().indexOf(filter) > -1 && filter.trim().length !== 0) {
+          if(document.getElementsByName("darkmode")[0].checked){
+            td.parentNode.style.backgroundColor = "rgb(255, 165, 0)";
+            empty = true;
+            break;
+          }else{
             td.parentNode.style.backgroundColor = "red";
+            empty = true;
+            break;
+          }
         }else{
             td.parentNode.style.backgroundColor = null;
+            empty = false;
         }
     }
-  })
+    if(empty === false){
+      alert("Search box is empty or Search term not found");
+    }
+  });
 
   document.getElementById("reset-cart").addEventListener("click", function(){
     if(sum !== 0){
@@ -194,6 +218,10 @@ console.log(col);
 
 
 document.getElementsByName("darkmode")[0].addEventListener("change",function(ev){
+  var red = "rgb(255, 0, 0)";
+  var orange = "rgb(255, 165, 0)";
+  var darkBody = document.getElementsByTagName("tbody");
+  var coloredElement;
   if(ev.target.checked){
   document.body.classList.add("darkmode");
   // document.getElementsByTagName("table")[0].classList.add("darkmode");
@@ -201,6 +229,16 @@ document.getElementsByName("darkmode")[0].addEventListener("change",function(ev)
   document.getElementById("searchBox").classList.add("darkmode");
   document.getElementById("listBox").classList.add("darkmode");
   document.getElementById("cart").classList.add("darkmode");
+  for (var i=0;i<darkBody.length;i++){
+    coloredElement = window.getComputedStyle(darkBody[i], null).backgroundColor;
+    console.log(coloredElement);
+    if(coloredElement === red){
+      console.log("orange");
+      darkBody[i].style.backgroundColor = orange;
+    }
+  }
+
+
 }else{
   document.body.classList.remove("darkmode");
   // document.getElementsByTagName("table")[0].classList.add("darkmode");
@@ -208,8 +246,23 @@ document.getElementsByName("darkmode")[0].addEventListener("change",function(ev)
   document.getElementById("searchBox").classList.remove("darkmode");
   document.getElementById("listBox").classList.remove("darkmode");
   document.getElementById("cart").classList.remove("darkmode");
+  for (var i=0;i<darkBody.length;i++){
+    coloredElement = window.getComputedStyle(darkBody[i], null).backgroundColor;
+    console.log(coloredElement);
+    if(coloredElement === orange){
+      console.log("orange");
+      darkBody[i].style.backgroundColor = red;
+    }
+  }
 }
 });
+
+titleBody = document.getElementsByTagName("tbody");
+for(var i=0; i<titleBody.length;i++){
+var titleData = titleBody[i].getElementsByTagName("td")[2];
+titleData.setAttribute("class","title-class");
+
+}
 
 }
 
